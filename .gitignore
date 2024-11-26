@@ -1,0 +1,35 @@
+# Byte-compiled files
+*.pyc
+*.pyo
+*.pyd
+__pycache__/
+*.logSS
+*.pot
+*.mo
+
+# Django-specific
+*.sqlite3
+db.sqlite3
+media/
+staticfiles/
+
+# Secrets
+.env
+
+# Migrations
+**/migrations/*
+
+# Test output
+.coverage
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+
+# Cache
+*.cache
+*.pickle
+*.pytest_cache/
+.cache/
+.DS_Store
