@@ -1,9 +1,11 @@
 from django.shortcuts import render, redirect
+from django.views.generic import ListView, DetailView
 from django.http import HttpResponseForbidden
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required, user_passes_test
-# Create your views here.
+from .models import Product, Category
+
 def homepage(request):
     return render(request, 'index.html')
 
@@ -35,3 +37,47 @@ def admin_only_view(request):
     if not request.user.is_staff:
         return HttpResponseForbidden("You are not authorized to view this page.")
     return render(request, "admin_only.html")
+
+
+
+class ProductListView(ListView):
+    model = Product
+    template_name = "products/product_list.html"  # automatic template handling
+    context_object_name = "products"
+    paginate_by = 10  
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.perPage = 10 
+
+    def get_queryset(self):
+        queryset = Product.objects.all()
+
+        category = self.request.GET.get("category")
+        if category:
+            queryset = queryset.filter(category__name__iexact=category)
+        seller = self.request.GET.get("seller")
+        if seller:
+            queryset = queryset.filter(seller__name__icontains=seller)
+        min_price = self.request.GET.get("min_price")
+        if min_price:
+            queryset = queryset.filter(price__gte=min_price)
+        max_price = self.request.GET.get("max_price")
+        if max_price:
+            queryset = queryset.filter(price__lte=max_price)
+
+        return queryset
+
+    def get_paginate_by(self, queryset):
+        per_page = self.request.GET.get("perPage")
+        return int(per_page) if per_page else self.perPage
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["categories"] = Category.objects.all()
+        return context
+
+class ProductDetailView(DetailView):
+    model = Product
+    template_name = "products/product_detail.html" 
+    context_object_name = "product"

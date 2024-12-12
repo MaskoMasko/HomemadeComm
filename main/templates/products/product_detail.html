@@ -1,0 +1,34 @@
+{% block title %}
+Product Details - {{ product.title }}
+{% endblock %}
+
+{% block content %}
+<h1>{{ product.title }}</h1>
+
+<img src="{{ product.image.url }}" alt="{{ product.title }}" style="max-width: 300px;">
+<p><strong>Description:</strong> {{ product.description }}</p>
+<p><strong>Price:</strong> ${{ product.price }}</p>
+<p><strong>Stock:</strong> {{ product.stock }}</p>
+
+{% if product.category %}
+<p><strong>Category:</strong> {{ product.category.name }}</p>
+{% endif %}
+
+<p><strong>Seller:</strong> {{ product.seller.name }}</p>
+<p><strong>Email:</strong> {{ product.seller.email }}</p>
+
+<p><strong>Created At:</strong> {{ product.created_at }}</p>
+
+<h2>Orders Containing This Product</h2>
+<ul>
+    {% for order_item in product.orderitem_set.all %}
+        <li>
+            Order #{{ order_item.order.id }} ({{ order_item.quantity }} x {{ product.title }})
+        </li>
+    {% empty %}
+        <li>No orders contain this product.</li>
+    {% endfor %}
+</ul>
+
+<a href="{% url 'product_list' %}">Back to Product List</a>
+{% endblock %}

@@ -1,0 +1,49 @@
+{% extends "index.html" %}
+{% block content %}
+<h1>Products</h1>
+
+<form method="get" class="filters">
+    <label for="category">Category:</label>
+    <select name="category" id="category">
+        <option value="">All</option>
+        {% for category in categories %}
+        <option value="{{ category.name }}" {% if request.GET.category == category.name %}selected{% endif %}>
+            {{ category.name }}
+        </option>
+        {% endfor %}
+    </select>
+
+    <label for="min_price">Min Price:</label>
+    <input type="number" name="min_price" id="min_price" value="{{ request.GET.min_price }}">
+
+    <label for="max_price">Max Price:</label>
+    <input type="number" name="max_price" id="max_price" value="{{ request.GET.max_price }}">
+
+    <button type="submit">Filter</button>
+</form>
+
+<ul>
+    {% for product in products %}
+    <li>
+        <h2>{{ product.title }}</h2>
+        <p>{{ product.description }}</p>
+        <p>Price: ${{ product.price }}</p>
+        <p>Stock: {{ product.stock }}</p>
+        <p>Category: {{ product.category.name }}</p>
+        <p>Seller: {{ product.seller.name }}</p>
+    </li>
+    {% endfor %}
+</ul>
+
+<div class="pagination">
+    {% if products.has_previous %}
+    <a href="?{% if request.GET %}{{ request.GET.urlencode }}&{% endif %}page={{ products.previous_page_number }}">Previous</a>
+    {% endif %}
+
+    <span>Page {{ products.number }} of {{ products.paginator.num_pages }}</span>
+
+    {% if products.has_next %}
+    <a href="?{% if request.GET %}{{ request.GET.urlencode }}&{% endif %}page={{ products.next_page_number }}">Next</a>
+    {% endif %}
+</div>
+{% endblock %}

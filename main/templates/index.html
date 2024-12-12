@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title></title>
+    <title>{% block title %}My Website{% endblock %}</title>
 </head>
 <body>
     <h1>This is our homepage</h1>
@@ -12,5 +12,9 @@
     {% else %}
         <p>Niste prijavljeni.</p>
     {% endif %}
+
+    <main>
+        {% block content %}{%endblock %}
+    </main>
 </body>
 </html>
