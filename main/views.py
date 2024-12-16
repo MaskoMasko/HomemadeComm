@@ -5,28 +5,25 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required, user_passes_test
 from .models import Product, Category
+from .UserCreationForm import CustomUserCreationForm
 
 def homepage(request):
     return render(request, 'index.html')
 
 def register(request):
     if request.method == 'POST':
-        form = UserCreationForm(request.POST)
-
+        form = CustomUserCreationForm(request.POST)
         if form.is_valid():
             form.save()
             username = form.cleaned_data['username']
             password = form.cleaned_data['password1']
-
             user = authenticate(username=username, password=password)
             login(request, user)
             return redirect('main:index')
-
     else:
-        form = UserCreationForm()
+        form = CustomUserCreationForm()
 
     context = {'form': form}
-
     return render(request, 'registration/register.html', context)
 
 def is_admin_user(user):
