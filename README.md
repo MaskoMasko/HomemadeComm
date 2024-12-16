@@ -19,3 +19,8 @@ Admin korisnik moze vidjeti `BASE_URL/admin-only` rutu dok obican korisnik dobij
 
 Registracija korisnika se desava na ruti: `BASE_URL/register`
 Admin takodjer moze kreirati i brisati korisnika u admin panelu kada se ulogira na `BASE_URL/admin` ruti. 
+
+
+## Prakticni zadatak 2
+
+Za drugi dio zadatka dodao sam endpointe `/products` i `/products/:id`. Na /products vidimo listu kreiranih proizvoda, kategorije, itd., te ih mozemo sortirati prema cijeni i kategoriji. Klikom na ime proizvoda dolazimo na stranicu sa detaljima proizvoda, u kojim narudzbama se nalazio taj proizvod te u kojim kosaricama se nalazi. 
