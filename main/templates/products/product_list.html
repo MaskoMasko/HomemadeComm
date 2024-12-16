@@ -25,7 +25,7 @@
 <ul>
     {% for product in products %}
     <li>
-        <h2>{{ product.title }}</h2>
+        <h2><a href="{{ product.get_absolute_url }}">{{ product.title }}</a></h2>
         <p>{{ product.description }}</p>
         <p>Price: ${{ product.price }}</p>
         <p>Stock: {{ product.stock }}</p>
@@ -34,16 +34,4 @@
     </li>
     {% endfor %}
 </ul>
-
-<div class="pagination">
-    {% if products.has_previous %}
-    <a href="?{% if request.GET %}{{ request.GET.urlencode }}&{% endif %}page={{ products.previous_page_number }}">Previous</a>
-    {% endif %}
-
-    <span>Page {{ products.number }} of {{ products.paginator.num_pages }}</span>
-
-    {% if products.has_next %}
-    <a href="?{% if request.GET %}{{ request.GET.urlencode }}&{% endif %}page={{ products.next_page_number }}">Next</a>
-    {% endif %}
-</div>
 {% endblock %}

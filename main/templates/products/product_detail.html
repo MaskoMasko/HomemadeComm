@@ -1,23 +1,14 @@
-{% block title %}
-Product Details - {{ product.title }}
-{% endblock %}
+{% extends "index.html" %}
 
 {% block content %}
 <h1>{{ product.title }}</h1>
-
-<img src="{{ product.image.url }}" alt="{{ product.title }}" style="max-width: 300px;">
-<p><strong>Description:</strong> {{ product.description }}</p>
-<p><strong>Price:</strong> ${{ product.price }}</p>
-<p><strong>Stock:</strong> {{ product.stock }}</p>
-
-{% if product.category %}
-<p><strong>Category:</strong> {{ product.category.name }}</p>
-{% endif %}
-
-<p><strong>Seller:</strong> {{ product.seller.username }}</p>
-<p><strong>Email:</strong> {{ product.seller.email }}</p>
-
-<p><strong>Created At:</strong> {{ product.created_at }}</p>
+Image: <img src="{{ product.image.url }}" alt="{{ product.title }}" style="max-width: 300px;">
+<p>Description: {{ product.description }}</p>
+<p>Price: ${{ product.price }}</p>
+<p>Stock: {{ product.stock }}</p>
+<p>Category: {{ product.category.name }}</p>
+<p>Seller: {{ product.seller.username }}</p>
+<p>Created At: {{ product.created_at }}</p>
 
 <h2>Orders Containing This Product</h2>
 <ul>
@@ -30,5 +21,16 @@ Product Details - {{ product.title }}
     {% endfor %}
 </ul>
 
-<a href="{% url 'product_list' %}">Back to Product List</a>
+<h2>Carts Containing This Product</h2>
+<ul>
+    {% for cart_item in product.cartitem_set.all %}
+        <li>
+            Cart of {{ cart_item.cart.user.username }} ({{ cart_item.quantity }} x {{ product.title }})
+        </li>
+    {% empty %}
+        <li>No carts contain this product.</li>
+    {% endfor %}
+</ul>
+
+<a href="{% url 'main:product_list' %}">Back to Product List</a>
 {% endblock %}

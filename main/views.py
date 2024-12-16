@@ -39,13 +39,9 @@ def admin_only_view(request):
 
 class ProductListView(ListView):
     model = Product
-    template_name = "products/product_list.html"  # automatic template handling
+    template_name = "products/product_list.html"
     context_object_name = "products"
-    paginate_by = 10  
-
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        self.perPage = 10 
+    paginate_by = 100
 
     def get_queryset(self):
         queryset = Product.objects.all()
@@ -64,10 +60,6 @@ class ProductListView(ListView):
             queryset = queryset.filter(price__lte=max_price)
 
         return queryset
-
-    def get_paginate_by(self, queryset):
-        per_page = self.request.GET.get("perPage")
-        return int(per_page) if per_page else self.perPage
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
