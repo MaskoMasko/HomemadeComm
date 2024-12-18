@@ -11,4 +11,5 @@ urlpatterns = [
     path("admin-only/", admin_only_view, name="admin_only"),
     path("products/", ProductListView.as_view(), name="product_list"),
     path('products/<int:pk>/', ProductDetailView.as_view(), name='product_detail'),
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+] 
+# + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
