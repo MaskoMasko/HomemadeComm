@@ -44,6 +44,25 @@
     <p><strong>Total Price:</strong> ${{ order.total_price }}</p>
     <p><strong>Created At:</strong> {{ order.created_at }}</p>
     <p><a href="{% url 'main:order_detail' order.id %}">View Details</a></p>
+    <div class="action-buttons">
+      <a href="{% url 'main:update_order' order.id %}" class="btn btn-warning"
+        >Update</a
+      >
+      <form
+        method="post"
+        action="{% url 'main:delete_order' order.id %}"
+        style="display: inline"
+      >
+        {% csrf_token %}
+        <button
+          type="submit"
+          class="btn btn-danger"
+          onclick="return confirm('Are you sure you want to delete this product?');"
+        >
+          Delete
+        </button>
+      </form>
+    </div>
   </li>
   {% empty %}
   <li>No orders found.</li>

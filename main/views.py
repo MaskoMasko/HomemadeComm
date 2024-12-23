@@ -1,20 +1,20 @@
 from django.shortcuts import render, redirect
-from django.views.generic import ListView, DetailView
+from django.views.generic import ListView, DetailView, UpdateView, DeleteView
 from django.http import HttpResponseForbidden
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required, user_passes_test
 from .models import Product, Category, Order
 from .UserCreationForm import CustomUserCreationForm
-from django.shortcuts import render, redirect
 from .forms import ProductForm, OrderForm, CartForm
+from django.urls import reverse_lazy
 
 def create_product(request):
     if request.method == 'POST':
         form = ProductForm(request.POST, request.FILES)
         if form.is_valid():
-            form.save()
-            return redirect('main:product_list') 
+            product = form.save()
+            return redirect(reverse_lazy('main:product_detail', kwargs={'pk': product.pk}))
     else:
         form = ProductForm()
     return render(request, 'create_product.html', {'form': form})
@@ -23,8 +23,8 @@ def create_order(request):
     if request.method == 'POST':
         form = OrderForm(request.POST)
         if form.is_valid():
-            form.save()
-            return redirect('main:product_list') 
+            order = form.save()
+            return redirect(reverse_lazy('main:order_detail', kwargs={'pk': order.pk}))
     else:
         form = OrderForm()
     return render(request, 'create_order.html', {'form': form})
@@ -132,3 +132,32 @@ class OrderDetailView(DetailView):
     model = Order
     template_name = "orders/order_detail.html"
     context_object_name = "order"
+
+
+class ProductUpdateView(UpdateView):
+    model = Product
+    fields = ['title', 'description', 'price', 'stock', 'category', 'image']
+    template_name = 'products/product_form.html'
+
+    def get_success_url(self):
+        return reverse_lazy('main:product_list')
+
+
+class ProductDeleteView(DeleteView):
+    model = Product
+    template_name = 'products/product_confirm_delete.html'
+    success_url = reverse_lazy('main:product_list')
+
+class OrderUpdateView(UpdateView):
+    model = Order
+    fields = ['buyer', 'total_price']
+    template_name = 'orders/order_form.html'
+
+    def get_success_url(self):
+        return reverse_lazy('main:order_list')
+
+
+class OrderDeleteView(DeleteView):
+    model = Order
+    template_name = 'orders/order_confirm_delete.html'
+    success_url = reverse_lazy('main:order_list')

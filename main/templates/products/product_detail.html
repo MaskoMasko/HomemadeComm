@@ -1,8 +1,18 @@
-{% extends "index.html" %}
-
 {% block content %}
 <h1>{{ product.title }}</h1>
-Image: <img src="{{ product.image.url }}" alt="{{ product.title }}" style="max-width: 300px;">
+{% if product.image %}
+<div>
+  Image:
+  <img
+    src="{{ product.image.url }}"
+    alt="{{ product.title }}"
+    style="max-width: 300px"
+  />
+</div>
+{% else %}
+<p>No image for this product</p>
+{% endif %}
+
 <p>Description: {{ product.description }}</p>
 <p>Price: ${{ product.price }}</p>
 <p>Stock: {{ product.stock }}</p>
@@ -12,24 +22,26 @@ Image: <img src="{{ product.image.url }}" alt="{{ product.title }}" style="max-w
 
 <h2>Orders Containing This Product</h2>
 <ul>
-    {% for order_item in product.orderitem_set.all %}
-        <li>
-            Order #{{ order_item.order.id }} ({{ order_item.quantity }} x {{ product.title }})
-        </li>
-    {% empty %}
-        <li>No orders contain this product.</li>
-    {% endfor %}
+  {% for order_item in product.orderitem_set.all %}
+  <li>
+    Order #{{ order_item.order.id }} ({{ order_item.quantity }} x {{
+    product.title }})
+  </li>
+  {% empty %}
+  <li>No orders contain this product.</li>
+  {% endfor %}
 </ul>
 
 <h2>Carts Containing This Product</h2>
 <ul>
-    {% for cart_item in product.cartitem_set.all %}
-        <li>
-            Cart of {{ cart_item.cart.user.username }} ({{ cart_item.quantity }} x {{ product.title }})
-        </li>
-    {% empty %}
-        <li>No carts contain this product.</li>
-    {% endfor %}
+  {% for cart_item in product.cartitem_set.all %}
+  <li>
+    Cart of {{ cart_item.cart.user.username }} ({{ cart_item.quantity }} x {{
+    product.title }})
+  </li>
+  {% empty %}
+  <li>No carts contain this product.</li>
+  {% endfor %}
 </ul>
 
 <a href="{% url 'main:product_list' %}">Back to Product List</a>

@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import ProductListView, homepage,OrderListView,OrderDetailView, register, admin_only_view,ProductDetailView, create_cart, create_order, create_product
+from .views import ProductListView, homepage,OrderListView,ProductDeleteView,OrderUpdateView, OrderDeleteView, ProductUpdateView,OrderDetailView, register, admin_only_view,ProductDetailView, create_cart, create_order, create_product
 # from django.conf import settings
 # from django.conf.urls.static import static
 
@@ -16,5 +16,9 @@ urlpatterns = [
     path('create/product/', create_product, name='create_product'),
     path('create/order/', create_order, name='create_order'),
     path('create/cart/', create_cart, name='create_cart'),
+    path('products/update/<int:pk>/', ProductUpdateView.as_view(), name='update_product'),
+    path('products/delete/<int:pk>/', ProductDeleteView.as_view(), name='delete_product'),
+    path('orders/update/<int:pk>/', OrderUpdateView.as_view(), name='update_order'),
+    path('orders/delete/<int:pk>/', OrderDeleteView.as_view(), name='delete_order'),
 ] 
 # + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
