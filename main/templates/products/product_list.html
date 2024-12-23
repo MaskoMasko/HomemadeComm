@@ -1,7 +1,11 @@
 {% extends "index.html" %}
 {% block content %}
-<h1>Products</h1>
+<div class="create-buttons">
+    <a href="{% url 'main:create_product' %}" class="btn btn-primary">Create Product</a>
+    <!-- <a href="{% url 'main:create_cart' %}" class="btn btn-primary">Create Cart</a> -->
+</div>
 
+<h1>Products</h1>
 <form method="get" class="filters">
     <label for="category">Category:</label>
     <select name="category" id="category">

@@ -4,9 +4,40 @@ from django.http import HttpResponseForbidden
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required, user_passes_test
-from .models import Product, Category
+from .models import Product, Category, Order
 from .UserCreationForm import CustomUserCreationForm
+from django.shortcuts import render, redirect
+from .forms import ProductForm, OrderForm, CartForm
 
+def create_product(request):
+    if request.method == 'POST':
+        form = ProductForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('main:product_list') 
+    else:
+        form = ProductForm()
+    return render(request, 'create_product.html', {'form': form})
+
+def create_order(request):
+    if request.method == 'POST':
+        form = OrderForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('main:product_list') 
+    else:
+        form = OrderForm()
+    return render(request, 'create_order.html', {'form': form})
+
+def create_cart(request):
+    if request.method == 'POST':
+        form = CartForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('main:product_list') 
+    else:
+        form = CartForm()
+    return render(request, 'create_cart.html', {'form': form})
 def homepage(request):
     return render(request, 'index.html')
 
@@ -70,3 +101,34 @@ class ProductDetailView(DetailView):
     model = Product
     template_name = "products/product_detail.html" 
     context_object_name = "product"
+
+class OrderListView(ListView):
+    model = Order
+    template_name = "orders/order_list.html"
+    context_object_name = "orders"
+    paginate_by = 50
+
+    def get_queryset(self):
+        queryset = Order.objects.all()
+
+        buyer = self.request.GET.get("buyer")
+        if buyer:
+            queryset = queryset.filter(buyer__username__icontains=buyer)
+        min_price = self.request.GET.get("min_total_price")
+        if min_price:
+            queryset = queryset.filter(total_price__gte=min_price)
+        max_price = self.request.GET.get("max_total_price")
+        if max_price:
+            queryset = queryset.filter(total_price__lte=max_price)
+
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
+
+
+class OrderDetailView(DetailView):
+    model = Order
+    template_name = "orders/order_detail.html"
+    context_object_name = "order"

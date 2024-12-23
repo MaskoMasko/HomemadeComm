@@ -1,0 +1,24 @@
+{% block content %}
+<h1>Order #{{ order.id }}</h1>
+<p><strong>Buyer:</strong> {{ order.buyer.username }}</p>
+<p><strong>Total Price:</strong> ${{ order.total_price }}</p>
+<p><strong>Created At:</strong> {{ order.created_at }}</p>
+
+<h2>Order Items</h2>
+<ul>
+  {% for item in order.items.all %}
+  <li>
+    {{ item.quantity }} x
+    <a href="{% url 'main:product_detail' item.product.id %}"
+      >{{ item.product.title }}</a
+    >
+    (Price: ${{ item.product.price }} | Subtotal: ${{
+    item.quantity|floatformat:2|add:item.product.price|floatformat:2 }})
+  </li>
+  {% empty %}
+  <li>No items in this order.</li>
+  {% endfor %}
+</ul>
+
+<a href="{% url 'main:order_list' %}">Back to Order List</a>
+{% endblock %}

@@ -1,24 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
+  <head>
+    <meta charset="UTF-8" />
     <title>{% block title %}My Website{% endblock %}</title>
-</head>
-<body>
-    <h1>This is our homepage</h1>
-
+  </head>
+  <body>
     {% if user.is_authenticated %}
-        <p>Vaše ime: {{ user.username }}</p>
+    <h1>Welcome {{ user.username }}!</h1>
     {% else %}
-        <p>Niste prijavljeni.</p>
+    <h1>Niste prijavljeni. <a href="/accounts/login">Prijavi se</a></h1>
     {% endif %}
 
-    <nav>
-        <a href="/products">Products</a>
-    </nav>
-
-    <main>
-        {% block content %}{% endblock %}
-    </main>
-</body>
+    <div style="display: flex; flex-direction: column">
+      <a href="/products">Products</a>
+      <a href="/orders">Orders</a>
+    </div>
+    <hr />
+    <main>{% block content %}{% endblock %}</main>
+  </body>
 </html>
