@@ -1,48 +1,93 @@
-{% block content %}
+{% extends "index.html" %} {% block content %}
 <h1>{{ product.title }}</h1>
+
 {% if product.image %}
-<div>
-  Image:
-  <img
-    src="{{ product.image.url }}"
-    alt="{{ product.title }}"
-    style="max-width: 300px"
-  />
+<div class="product-image">
+  <img src="{{ product.image.url }}" alt="{{ product.title }}" />
 </div>
 {% else %}
-<p>No image for this product</p>
+<p class="no-image">No image for this product</p>
 {% endif %}
 
-<p>Description: {{ product.description }}</p>
-<p>Price: ${{ product.price }}</p>
-<p>Stock: {{ product.stock }}</p>
-<p>Category: {{ product.category.name }}</p>
-<p>Seller: {{ product.seller.username }}</p>
-<p>Created At: {{ product.created_at }}</p>
+<div class="product-details">
+  <p><strong>Description:</strong> {{ product.description }}</p>
+  <p><strong>Price:</strong> ${{ product.price }}</p>
+  <p><strong>Stock:</strong> {{ product.stock }}</p>
+  <p><strong>Category:</strong> {{ product.category.name }}</p>
+  <p><strong>Seller:</strong> {{ product.seller.username }}</p>
+  <p><strong>Created At:</strong> {{ product.created_at }}</p>
+</div>
 
 <h2>Orders Containing This Product</h2>
-<ul>
+<ul class="order-list">
   {% for order_item in product.orderitem_set.all %}
-  <li>
+  <li class="order-item">
     Order #{{ order_item.order.id }} ({{ order_item.quantity }} x {{
     product.title }})
   </li>
   {% empty %}
-  <li>No orders contain this product.</li>
+  <li class="no-orders">No orders contain this product.</li>
   {% endfor %}
 </ul>
 
 <h2>Carts Containing This Product</h2>
-<ul>
+<ul class="cart-list">
   {% for cart_item in product.cartitem_set.all %}
-  <li>
-    Cart of {{ cart_item.cart.user.username }} ({{ cart_item.quantity }} x {{
-    product.title }})
+  <li class="cart-item">
+    Cart of {{ cart_item.cart.user.username }} ({{ cart_item.quantity }} x
+    {{product.title }})
   </li>
   {% empty %}
-  <li>No carts contain this product.</li>
+  <li class="no-carts">No carts contain this product.</li>
   {% endfor %}
 </ul>
+<br />
+<a href="{% url 'main:product_list' %}" class="btn btn-info"
+  >Back to Product List</a
+>
 
-<a href="{% url 'main:product_list' %}">Back to Product List</a>
+<style>
+  .product-image img {
+    max-width: 300px;
+    border-radius: 8px;
+    box-shadow: 0 5px 5px rgba(0, 0, 0, 0.1);
+  }
+
+  .product-details {
+    background: #fff;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 5px 5px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+  }
+
+  .order-list,
+  .cart-list {
+    list-style: none;
+    padding: 0;
+  }
+
+  .order-item,
+  .cart-item {
+    background: #f9f9f9;
+    padding: 10px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+  }
+
+  .btn {
+    padding: 8px 12px;
+    text-decoration: none;
+    color: white;
+    border-radius: 5px;
+    transition: background 0.3s;
+    border: 0;
+  }
+  .btn-info {
+    background-color: #17a2b8;
+  }
+  .btn:hover {
+    opacity: 0.8;
+  }
+</style>
 {% endblock %}

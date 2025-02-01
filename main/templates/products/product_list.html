@@ -23,13 +23,13 @@
     <label for="max_price">Max Price:</label>
     <input type="number" name="max_price" id="max_price" value="{{ request.GET.max_price }}">
 
-    <button type="submit">Filter</button>
+    <button type="submit" class="btn btn-filter">Filter</button>
 </form>
 
-<ul>
+<ul class="product-list">
     {% for product in products %}
-    <li>
-        <h2><a href="{{ product.get_absolute_url }}">{{ product.title }}</a></h2>
+    <li class="product-item">
+        <h2><a href="{{ product.get_absolute_url }}" style="color: #292929;">{{ product.title }}</a></h2>
         <p>{{ product.description }}</p>
         <p>Price: ${{ product.price }}</p>
         <p>Stock: {{ product.stock }}</p>
@@ -45,4 +45,66 @@
     </li>
     {% endfor %}
 </ul>
+
+<style>
+    .create-buttons {
+        margin-bottom: 20px;
+    }
+    .filters {
+        margin-bottom: 20px;
+    }
+    .product-list {
+        list-style-type: none;
+        padding: 0;
+    }
+    .product-item {
+        background: #f9f9f9;
+        padding: 15px;
+        margin-bottom: 10px;
+        border-radius: 5px;
+        box-shadow: 0 5px 5px rgba(0, 0, 0, 0.1);
+    }
+    .btn {
+        padding: 8px 12px;
+        border-radius: 5px;
+        border: 0;
+        text-decoration: none;
+        display: inline-block;
+        transition: background 0.3s;
+    }
+    .btn-primary {
+        background-color: #007bff;
+        color: white;
+    }
+    .btn-primary:hover {
+        background-color: #0056b3;
+    }
+    .btn-warning {
+        background-color: #ffc107;
+        border: 0;
+        color: black;
+    }
+    .btn-warning:hover {
+        background-color: #e0a800;
+    }
+    .btn-danger {
+        background-color: #dc3545;
+        border: 1px solid #dc3545;
+        color: white;
+    }
+    .btn-danger:hover {
+        background-color: #c82333;
+    }
+    .btn-filter {
+        background-color: #28a745;
+        color: white;
+    }
+    .btn-filter:hover {
+        background-color: #218838;
+    }
+    .action-buttons {
+        margin-top: 10px;
+    }
+</style>
+
 {% endblock %}

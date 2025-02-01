@@ -1,9 +1,54 @@
 {% extends "index.html" %} {% block content %}
 <h1>Confirm Deletion</h1>
-<p>Are you sure you want to delete "{{ object.id }}"?</p>
-<form method="post">
-  {% csrf_token %}
-  <button type="submit" class="btn btn-danger">Yes, Delete</button>
-  <a href="{% url 'main:product_list' %}" class="btn btn-secondary">Cancel</a>
-</form>
+<div class="delete-container">
+  <p>Are you sure you want to delete "{{ object.id }}"?</p>
+  <form method="post">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-danger">Yes, Delete</button>
+    <a href="{% url 'main:product_list' %}" class="btn btn-secondary">Cancel</a>
+  </form>
+</div>
+
+<style>
+  .delete-container {
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 20px;
+    background: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    text-align: center;
+  }
+  h1 {
+    text-align: center;
+  }
+  p {
+    font-size: 16px;
+  }
+  .btn {
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s;
+    margin: 5px;
+  }
+  .btn-danger {
+    background-color: #dc3545;
+    color: white;
+  }
+  .btn-danger:hover {
+    background-color: #c82333;
+  }
+  .btn-secondary {
+    background-color: #6c757d;
+    color: white;
+    text-decoration: none;
+    display: inline-block;
+    padding: 10px 15px;
+  }
+  .btn-secondary:hover {
+    background-color: #5a6268;
+  }
+</style>
 {% endblock %}

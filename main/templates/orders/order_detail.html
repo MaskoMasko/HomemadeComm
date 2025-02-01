@@ -1,24 +1,75 @@
-{% block content %}
+{% extends "index.html" %} {% block content %}
 <h1>Order #{{ order.id }}</h1>
-<p><strong>Buyer:</strong> {{ order.buyer.username }}</p>
-<p><strong>Total Price:</strong> ${{ order.total_price }}</p>
-<p><strong>Created At:</strong> {{ order.created_at }}</p>
+
+<div class="order-details">
+  <p><strong>Buyer:</strong> {{ order.buyer.username }}</p>
+  <p><strong>Total Price:</strong> ${{ order.total_price }}</p>
+  <p><strong>Created At:</strong> {{ order.created_at }}</p>
+</div>
 
 <h2>Order Items</h2>
-<ul>
+<ul class="order-list">
   {% for item in order.items.all %}
-  <li>
+  <li class="order-item">
     {{ item.quantity }} x
-    <a href="{% url 'main:product_detail' item.product.id %}"
-      >{{ item.product.title }}</a
+    <a
+      href="{% url 'main:product_detail' item.product.id %}"
+      class="product-link"
     >
-    (Price: ${{ item.product.price }} | Subtotal: ${{
-    item.quantity|floatformat:2|add:item.product.price|floatformat:2 }})
+      {{ item.product.title }}
+    </a>
+    Price: ${{ item.product.price }}
   </li>
   {% empty %}
-  <li>No items in this order.</li>
+  <li class="no-orders">No items in this order.</li>
   {% endfor %}
 </ul>
+<br />
+<a href="{% url 'main:order_list' %}" class="btn btn-info"
+  >Back to Order List</a
+>
 
-<a href="{% url 'main:order_list' %}">Back to Order List</a>
+<style>
+  .order-details {
+    background: #fff;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 5px 5px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+  }
+
+  .order-list {
+    list-style: none;
+    padding: 0;
+  }
+
+  .order-item {
+    background: #f9f9f9;
+    padding: 10px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+  }
+
+  .btn {
+    padding: 8px 12px;
+    text-decoration: none;
+    color: white;
+    border-radius: 5px;
+    transition: background 0.3s;
+    border: 0;
+  }
+  .btn-info {
+    background-color: #17a2b8;
+  }
+  .btn:hover {
+    opacity: 0.8;
+  }
+  .product-link {
+    color: #007bff;
+    text-decoration: none;
+  }
+  .product-link:hover {
+    text-decoration: underline;
+  }
+</style>
 {% endblock %}

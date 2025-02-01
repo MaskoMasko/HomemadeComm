@@ -2,21 +2,61 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>{% block title %}My Website{% endblock %}</title>
+    <title>{% block title %}HomemadeComm{% endblock %}</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+      }
+      .navbar {
+        background-color: #333;
+        overflow: hidden;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 20px;
+      }
+      .navbar a {
+        color: white;
+        text-decoration: none;
+        padding: 10px 15px;
+        transition: background 0.3s;
+      }
+      .navbar a:hover {
+        background-color: #555;
+        border-radius: 5px;
+      }
+      .navbar .nav-links {
+        display: flex;
+        gap: 12px;
+      }
+      .navbar .user-info {
+        color: white;
+      }
+      .container {
+        padding: 20px;
+      }
+    </style>
   </head>
   <body>
-    {% if user.is_authenticated %}
-    <h1>Welcome {{ user.username }}!</h1>
-    <a href="{% url 'logout' %}">Logout</a>
-    {% else %}
-    <h1>Niste prijavljeni. <a href="/accounts/login">Prijavi se</a></h1>
-    {% endif %}
-
-    <div style="display: flex; flex-direction: column">
-      <a href="/products">Products</a>
-      <a href="/orders">Orders</a>
+    <div class="navbar">
+      <h3 style="color: white">HomemadeComm</h3>
+      <div class="nav-links">
+        <a href="/products">Products</a>
+        <a href="/orders">Orders</a>
+      </div>
+      <div class="user-info">
+        {% if user.is_authenticated %} {{ user.username }} |
+        <a href="{% url 'logout' %}">Logout</a>
+        {% else %}
+        <a href="/accounts/login">Prijavi se</a>
+        {% endif %}
+      </div>
     </div>
-    <hr />
-    <main>{% block content %}{% endblock %}</main>
+
+    <div class="container">
+      <main>{% block content %}{% endblock %}</main>
+    </div>
   </body>
 </html>
