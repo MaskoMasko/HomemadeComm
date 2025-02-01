@@ -31,3 +31,7 @@ Za drugi dio zadatka dodao sam endpointe `/products` i `/products/:id`. Na /prod
 Dodani su button za editiranje i brisanje zasebnih proizvoda i narudzbi
 
 Takodjer je na `/products` i `/orders` dodan link za kreaciju proizvoda i narudzbi. Napravljena je logika za kreaciju, editiranje i brisanje "kosarice", ali je trenutno nepotrebna unutar aplikacije tako da je nema u korisnickom sucelju
+
+## Prakticni zadatak 4
+
+Dodana je **REST Framework** ruta `/api/products` na kojoj mozemo vidjeti sve proizvode, kreirati ih, te ih pojedinacno pregledati (ako se doda id proizvoda na kraj endpointa). Ako nismo ulogirani kao korisnik i pokusamo ici na taj endpoint, redirectat ce nas na login page.
