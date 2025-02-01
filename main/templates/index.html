@@ -7,6 +7,7 @@
   <body>
     {% if user.is_authenticated %}
     <h1>Welcome {{ user.username }}!</h1>
+    <a href="{% url 'logout' %}">Logout</a>
     {% else %}
     <h1>Niste prijavljeni. <a href="/accounts/login">Prijavi se</a></h1>
     {% endif %}

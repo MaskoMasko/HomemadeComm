@@ -8,6 +8,9 @@ from .models import Product, Category, Order
 from .UserCreationForm import CustomUserCreationForm
 from .forms import ProductForm, OrderForm, CartForm
 from django.urls import reverse_lazy
+from rest_framework import viewsets
+from django.utils.decorators import method_decorator
+from main.serializers import ProductSerializer
 
 def create_product(request):
     if request.method == 'POST':
@@ -161,3 +164,10 @@ class OrderDeleteView(DeleteView):
     model = Order
     template_name = 'orders/order_confirm_delete.html'
     success_url = reverse_lazy('main:order_list')
+
+class ProductViewSet(viewsets.ModelViewSet):
+    queryset = Product.objects.all().order_by("title")
+    serializer_class = ProductSerializer
+    @method_decorator(login_required) 
+    def dispatch(self, *args, **kwargs):
+        return super().dispatch(*args, **kwargs)
