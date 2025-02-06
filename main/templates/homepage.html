@@ -21,7 +21,7 @@
     {% for product in products|slice:":4" %} {# Display only 4 products #}
     <div class="product-card">
         {% load static %}
-        <img src="{{ product.image.url }}" width="150px" height="150px">
+        <img src="{% static product.image.url %}" width="150px" height="150px">
         <div class="product-info">
             <h3><a href="{{ product.get_absolute_url }}">{{ product.title }}</a></h3>
             <p>{{ product.description|truncatewords:10 }}</p>

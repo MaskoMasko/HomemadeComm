@@ -3,7 +3,8 @@
 
 {% if product.image %}
 <div class="product-image">
-  <img src="{{ product.image.url }}" alt="{{ product.title }}" />
+  {% load static %}
+  <img src="{% static product.image.url %}" alt="{{ product.title }}" />
 </div>
 {% else %}
 <p class="no-image">No image for this product</p>
