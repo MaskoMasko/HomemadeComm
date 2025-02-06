@@ -1,5 +1,5 @@
 from django.urls import path, include
-from .views import ProductListView, homepage,OrderListView,ProductViewSet,ProductDeleteView,OrderUpdateView, OrderDeleteView, ProductUpdateView,OrderDetailView, register, admin_only_view,ProductDetailView, create_cart, create_order, create_product, cart_detail, add_to_cart,remove_from_cart
+from .views import ProductListView, homepage,OrderListView,ProductViewSet,ProductDeleteView,OrderUpdateView, OrderDeleteView, ProductUpdateView,OrderDetailView, register, admin_only_view,ProductDetailView, create_cart, create_order, create_product, cart_detail, add_to_cart,remove_from_cart,redirect_to_accounts_login
 from django.conf import settings
 from django.conf.urls.static import static
 from rest_framework import routers
@@ -29,4 +29,5 @@ urlpatterns = [
     path('cart/', cart_detail, name='cart_detail'),
     path('cart/add/<int:pk>/', add_to_cart, name='add_to_cart'),
     path('cart/remove/<int:cart_item_id>/', remove_from_cart, name='remove_from_cart'),
+    path('login/', redirect_to_accounts_login),
 ] + static('product_images/', document_root='')

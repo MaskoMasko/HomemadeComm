@@ -11,7 +11,8 @@ from django.urls import reverse_lazy
 from rest_framework import viewsets
 from django.utils.decorators import method_decorator
 from main.serializers import ProductSerializer
-
+def redirect_to_accounts_login(request):
+    return redirect('/accounts/login/')
 def create_product(request):
     if request.method == 'POST':
         form = ProductForm(request.POST, request.FILES)
