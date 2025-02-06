@@ -22,8 +22,7 @@
 <ul class="order-list">
   {% for order_item in product.orderitem_set.all %}
   <li class="order-item">
-    Order #{{ order_item.order.id }} ({{ order_item.quantity }} x {{
-    product.title }})
+    Order #{{ order_item.order.id }} ({{ order_item.quantity }} x {{ order_item.product.title }})
   </li>
   {% empty %}
   <li class="no-orders">No orders contain this product.</li>
@@ -42,9 +41,12 @@
   {% endfor %}
 </ul>
 <br />
-<a href="{% url 'main:product_list' %}" class="btn btn-info"
-  >Back to Product List</a
->
+<form method="post" action="{% url 'main:add_to_cart' product.id %}">
+  {% csrf_token %}
+  <button type="submit" class="btn" style="background-color: #ffc107; border: 1; color:black">Add to Cart</button>
+</form>
+<br>
+<a href="{% url 'main:product_list' %}" class="btn btn-info">Back to Product List</a>
 
 <style>
   .product-image img {
@@ -83,9 +85,11 @@
     transition: background 0.3s;
     border: 0;
   }
+
   .btn-info {
     background-color: #17a2b8;
   }
+
   .btn:hover {
     opacity: 0.8;
   }

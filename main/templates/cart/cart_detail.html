@@ -1,0 +1,108 @@
+{% extends "index.html" %}
+
+{% block content %}
+<h1>Your Cart</h1>
+
+{% if cart_items %}
+<ul class="cart-list">
+    {% for item in cart_items %}
+    <li class="cart-item">
+        <p><strong>{{ item.product.title }}</strong></p>
+        <p>Quantity: {{ item.quantity }}</p>
+        <p>Price: ${{ item.product.price }}</p>
+        <form method="post" action="{% url 'main:remove_from_cart' item.id %}">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger">Remove</button>
+        </form>
+    </li>
+    {% endfor %}
+</ul>
+<br>
+<div style="font-weight: bold; font-size: 24px;">
+    Total: ${{ cart_total }}
+</div>
+<br>
+<a class="btn btn-primary"
+    style="padding:6px; background-color: lightgray; border-radius: 4px; font-size: 14px; color: gray;">Proceed to
+    Checkout</a>
+{% else %}
+<p>Your cart is empty.</p>
+{% endif %}
+<br>
+<br>
+<a href="{% url 'main:product_list' %}" class="btn btn-info">Continue Shopping</a>
+<style>
+    .cart-container {
+        max-width: 600px;
+        margin: 40px auto;
+        padding: 20px;
+        background: #f8f9fa;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .cart-list {
+        list-style: none;
+        padding: 0;
+    }
+
+    .cart-item {
+        padding: 15px;
+        background: white;
+        margin-bottom: 10px;
+        border-radius: 6px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .cart-item p {
+        margin: 5px 0;
+    }
+
+    .btn {
+        display: inline-block;
+        padding: 8px 12px;
+        border-radius: 4px;
+        text-decoration: none;
+        font-size: 14px;
+    }
+
+    .btn-danger {
+        background: #dc3545;
+        color: white;
+        border: none;
+        cursor: pointer;
+    }
+
+    .btn-danger:hover {
+        background: #c82333;
+    }
+
+    .btn-info {
+        background: #17a2b8;
+        color: white;
+        border: none;
+        text-align: center;
+    }
+
+    .btn-info:hover {
+        background: #138496;
+    }
+
+    .btn-primary {
+        background-color: lightgray;
+        color: gray;
+        border: none;
+    }
+
+    .btn-primary:hover {
+        background-color: darkgray;
+        color: white;
+    }
+
+    .empty-cart {
+        text-align: center;
+        color: #888;
+        font-style: italic;
+    }
+</style>
+{% endblock %}

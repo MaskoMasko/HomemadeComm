@@ -1,9 +1,11 @@
 {% extends "index.html" %}
 {% block content %}
+{% if user.is_staff %}
 <div class="create-buttons">
     <a href="{% url 'main:create_product' %}" class="btn btn-primary">Create Product</a>
     <!-- <a href="{% url 'main:create_cart' %}" class="btn btn-primary">Create Cart</a> -->
 </div>
+{% endif %}
 
 <h1>Products</h1>
 <form method="get" class="filters">
@@ -11,7 +13,7 @@
     <select name="category" id="category">
         <option value="">All</option>
         {% for category in categories %}
-        <option value="{{ category.name }}" {% if request.GET.category == category.name %}selected{% endif %}>
+        <option value="{{ category.name }}" {% if request.GET.category in category.name %}selected{% endif %}>
             {{ category.name }}
         </option>
         {% endfor %}
@@ -35,13 +37,16 @@
         <p>Stock: {{ product.stock }}</p>
         <p>Category: {{ product.category.name }}</p>
         <p>Seller: {{ product.seller.username }}</p>
+        {% if user.is_staff %}
         <div class="action-buttons">
             <a href="{% url 'main:update_product' product.id %}" class="btn btn-warning">Update</a>
             <form method="post" action="{% url 'main:delete_product' product.id %}" style="display: inline;">
                 {% csrf_token %}
-                <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this product?');">Delete</button>
+                <button type="submit" class="btn btn-danger"
+                    onclick="return confirm('Are you sure you want to delete this product?');">Delete</button>
             </form>
         </div>
+        {% endif %}
     </li>
     {% endfor %}
 </ul>
@@ -50,13 +55,16 @@
     .create-buttons {
         margin-bottom: 20px;
     }
+
     .filters {
         margin-bottom: 20px;
     }
+
     .product-list {
         list-style-type: none;
         padding: 0;
     }
+
     .product-item {
         background: #f9f9f9;
         padding: 15px;
@@ -64,6 +72,7 @@
         border-radius: 5px;
         box-shadow: 0 5px 5px rgba(0, 0, 0, 0.1);
     }
+
     .btn {
         padding: 8px 12px;
         border-radius: 5px;
@@ -72,36 +81,45 @@
         display: inline-block;
         transition: background 0.3s;
     }
+
     .btn-primary {
         background-color: #007bff;
         color: white;
     }
+
     .btn-primary:hover {
         background-color: #0056b3;
     }
+
     .btn-warning {
         background-color: #ffc107;
         border: 0;
         color: black;
     }
+
     .btn-warning:hover {
         background-color: #e0a800;
     }
+
     .btn-danger {
         background-color: #dc3545;
         border: 1px solid #dc3545;
         color: white;
     }
+
     .btn-danger:hover {
         background-color: #c82333;
     }
+
     .btn-filter {
         background-color: #28a745;
         color: white;
     }
+
     .btn-filter:hover {
         background-color: #218838;
     }
+
     .action-buttons {
         margin-top: 10px;
     }

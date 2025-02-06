@@ -1,7 +1,7 @@
 from django.urls import path, include
-from .views import ProductListView, homepage,OrderListView,ProductViewSet,ProductDeleteView,OrderUpdateView, OrderDeleteView, ProductUpdateView,OrderDetailView, register, admin_only_view,ProductDetailView, create_cart, create_order, create_product
-# from django.conf import settings
-# from django.conf.urls.static import static
+from .views import ProductListView, homepage,OrderListView,ProductViewSet,ProductDeleteView,OrderUpdateView, OrderDeleteView, ProductUpdateView,OrderDetailView, register, admin_only_view,ProductDetailView, create_cart, create_order, create_product, cart_detail, add_to_cart,remove_from_cart
+from django.conf import settings
+from django.conf.urls.static import static
 from rest_framework import routers
 
 router = routers.DefaultRouter()
@@ -25,6 +25,8 @@ urlpatterns = [
     path('orders/update/<int:pk>/', OrderUpdateView.as_view(), name='update_order'),
     path('orders/delete/<int:pk>/', OrderDeleteView.as_view(), name='delete_order'),
     path("", include(router.urls)),
-    path('api/products/', include('rest_framework.urls', namespace='rest_framework'))
-] 
-# + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    path('api/products/', include('rest_framework.urls', namespace='rest_framework')),
+    path('cart/', cart_detail, name='cart_detail'),
+    path('cart/add/<int:pk>/', add_to_cart, name='add_to_cart'),
+    path('cart/remove/<int:cart_item_id>/', remove_from_cart, name='remove_from_cart'),
+] + static('product_images/', document_root='')

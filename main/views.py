@@ -1,10 +1,10 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect,get_object_or_404
 from django.views.generic import ListView, DetailView, UpdateView, DeleteView
 from django.http import HttpResponseForbidden
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required, user_passes_test
-from .models import Product, Category, Order
+from .models import Product, Category, Order, Cart, CartItem
 from .UserCreationForm import CustomUserCreationForm
 from .forms import ProductForm, OrderForm, CartForm
 from django.urls import reverse_lazy
@@ -42,7 +42,9 @@ def create_cart(request):
         form = CartForm()
     return render(request, 'create_cart.html', {'form': form})
 def homepage(request):
-    return render(request, 'index.html')
+     products = Product.objects.order_by('-id')[:4]
+     categories = Category.objects.all() 
+     return render(request, "homepage.html", {"products": products, "categories": categories})
 
 def register(request):
     if request.method == 'POST':
@@ -171,3 +173,33 @@ class ProductViewSet(viewsets.ModelViewSet):
     @method_decorator(login_required) 
     def dispatch(self, *args, **kwargs):
         return super().dispatch(*args, **kwargs)
+
+@login_required
+def add_to_cart(request, pk):
+    product = get_object_or_404(Product, id=pk)
+    cart, created = Cart.objects.get_or_create(user=request.user)
+
+    cart_item, created = CartItem.objects.get_or_create(cart=cart, product=product)
+    if created:
+        cart_item.quantity = 1 
+    else:
+        cart_item.quantity += 1 
+    cart_item.save()
+
+    return redirect('main:cart_detail')
+
+
+@login_required
+def cart_detail(request):
+    cart, created = Cart.objects.get_or_create(user=request.user)
+    cart_items = CartItem.objects.filter(cart=cart) 
+    cart_total = sum(item.product.price * item.quantity for item in cart_items)
+    
+    return render(request, 'cart/cart_detail.html', {'cart': cart, 'cart_items': cart_items,'cart_total': cart_total})
+
+
+@login_required
+def remove_from_cart(request, cart_item_id):
+    cart_item = get_object_or_404(CartItem, id=cart_item_id, cart__user=request.user)
+    cart_item.delete()
+    return redirect('main:cart_detail')
