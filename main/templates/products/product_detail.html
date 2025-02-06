@@ -17,7 +17,7 @@
   <p><strong>Seller:</strong> {{ product.seller.username }}</p>
   <p><strong>Created At:</strong> {{ product.created_at }}</p>
 </div>
-
+{% if user.is_staff %}
 <h2>Orders Containing This Product</h2>
 <ul class="order-list">
   {% for order_item in product.orderitem_set.all %}
@@ -40,6 +40,7 @@
   <li class="no-carts">No carts contain this product.</li>
   {% endfor %}
 </ul>
+{% endif %}
 <br />
 <form method="post" action="{% url 'main:add_to_cart' product.id %}">
   {% csrf_token %}

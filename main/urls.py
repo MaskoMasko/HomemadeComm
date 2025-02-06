@@ -30,4 +30,4 @@ urlpatterns = [
     path('cart/add/<int:pk>/', add_to_cart, name='add_to_cart'),
     path('cart/remove/<int:cart_item_id>/', remove_from_cart, name='remove_from_cart'),
     path('login/', redirect_to_accounts_login),
-] + static('product_images/', document_root='')
+]
