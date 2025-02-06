@@ -35,3 +35,7 @@ Takodjer je na `/products` i `/orders` dodan link za kreaciju proizvoda i narudz
 ## Prakticni zadatak 4
 
 Dodana je **REST Framework** ruta `/api/products` na kojoj mozemo vidjeti sve proizvode, kreirati ih, te ih pojedinacno pregledati (ako se doda id proizvoda na kraj endpointa). Ako nismo ulogirani kao korisnik i pokusamo ici na taj endpoint, redirectat ce nas na login page.
+
+## Zavrsni zadatak
+
+Dodane su kategorije i nekoliko proizvoda na pocenoj stranici. Ograniceno je uredjivanje/brisanje podataka (osim za korisnike koji su admin). Dodana je stranica "Cart" na kojoj se mogu vidjeti proizvodi koji su dodani tijekom koristenja aplikacije. Ako je korisnik admin moze vidjeti narudzbe.
