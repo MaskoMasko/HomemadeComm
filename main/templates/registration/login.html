@@ -26,6 +26,11 @@
     <input type="hidden" name="next" value="{{ next }}" />
     <button type="submit" class="btn">Login</button>
   </form>
+
+  <!-- Add the "Don't have an account?" link here -->
+  <p class="register-link">
+    Don't have an account? <a href="{% url 'main:register' %}">Register here</a>.
+  </p>
 </div>
 
 <style>
@@ -38,29 +43,36 @@
     border-radius: 8px;
     text-align: center;
   }
+
   .error-message {
     color: red;
   }
+
   .warning-message {
     color: orange;
   }
+
   .info-message {
     color: blue;
   }
+
   .form-group {
     margin-bottom: 15px;
     text-align: left;
   }
+
   .form-group label {
     display: block;
     font-weight: bold;
   }
+
   .form-group input {
     width: 100%;
     padding: 8px;
     border: 1px solid #ccc;
     border-radius: 5px;
   }
+
   .btn {
     background-color: #333;
     color: white;
@@ -70,8 +82,24 @@
     cursor: pointer;
     transition: background 0.3s;
   }
+
   .btn:hover {
     background-color: #555;
+  }
+
+  .register-link {
+    margin-top: 15px;
+    font-size: 14px;
+  }
+
+  .register-link a {
+    color: #333;
+    text-decoration: none;
+    font-weight: bold;
+  }
+
+  .register-link a:hover {
+    text-decoration: underline;
   }
 </style>
 {% endblock %}

@@ -48,10 +48,21 @@
         </div>
         {% endif %}
     </li>
+    {% empty %}
+    <li class="empty-message">
+        No products found...
+    </li>
     {% endfor %}
 </ul>
 
 <style>
+    .empty-message {
+        font-size: 18px;
+        margin-top: 20px;
+        font-weight: bold;
+        font-size: 20px;
+    }
+
     .create-buttons {
         margin-bottom: 20px;
     }

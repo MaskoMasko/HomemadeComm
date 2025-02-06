@@ -8,45 +8,102 @@
 
   <form method="post" action="{% url 'main:register' %}" class="register-form">
     {% csrf_token %}
-    <div class="form-group">{{ form }}</div>
-    <br />
+    <div class="form-group">
+      {{ form.as_p }} <!-- Render form fields as paragraphs for better spacing -->
+    </div>
     <button type="submit" class="btn">Register</button>
+    <p class="login-link">Already have an account? <a href="{% url 'login' %}">Login here</a>.</p>
   </form>
 </div>
 
 <style>
   .register-container {
     max-width: 400px;
-    margin: 50px auto;
-    padding: 20px;
+    margin: 20px auto;
+    padding: 30px;
     background: #fff;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
     text-align: center;
   }
-  .error-message {
-    color: red;
+
+  h2 {
+    margin-bottom: 10px;
+    font-size: 24px;
+    color: #333;
   }
+
+  .error-message {
+    color: #ff4d4d;
+    font-size: 14px;
+    margin-bottom: 10px;
+  }
+
+  .register-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+
   .form-group {
     text-align: left;
   }
+
+  .form-group p {
+    margin-bottom: 10px;
+  }
+
+  .form-group label {
+    display: block;
+    font-weight: 600;
+    color: #555;
+  }
+
   .form-group input {
     width: 100%;
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 14px;
+    transition: border-color 0.3s;
   }
+
+  .form-group input:focus {
+    border-color: #333;
+    outline: none;
+  }
+
   .btn {
     background-color: #333;
     color: white;
-    padding: 10px 15px;
+    padding: 12px 20px;
     border: none;
-    border-radius: 5px;
+    border-radius: 6px;
+    font-size: 16px;
     cursor: pointer;
     transition: background 0.3s;
   }
+
   .btn:hover {
     background-color: #555;
+  }
+
+  .login-link {
+    margin-top: 15px;
+    font-size: 14px;
+    color: #666;
+  }
+
+  .login-link a {
+    color: #333;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s;
+  }
+
+  .login-link a:hover {
+    color: #555;
+    text-decoration: underline;
   }
 </style>
 {% endblock %}

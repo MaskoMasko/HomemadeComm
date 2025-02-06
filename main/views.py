@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect,get_object_or_404
+from django.db.models import Count
 from django.views.generic import ListView, DetailView, UpdateView, DeleteView
 from django.http import HttpResponseForbidden
 from django.contrib.auth.forms import UserCreationForm
@@ -44,7 +45,7 @@ def create_cart(request):
     return render(request, 'create_cart.html', {'form': form})
 def homepage(request):
      products = Product.objects.order_by('-id')[:4]
-     categories = Category.objects.all() 
+     categories = Category.objects.annotate(num_products=Count('product')).filter(num_products__gt=0)
      return render(request, "homepage.html", {"products": products, "categories": categories})
 
 def register(request):
@@ -100,7 +101,7 @@ class ProductListView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["categories"] = Category.objects.all()
+        context["categories"] = Category.objects.annotate(num_products=Count('product')).filter(num_products__gt=0)
         return context
 
 class ProductDetailView(DetailView):
